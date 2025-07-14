@@ -26,6 +26,7 @@ def load_and_clean_rankings(csv_path: str, nrows: int = 200) -> DataFrame:
         })
 
         df["years_played"] = 0
+        df["rank"] = df.index + 1
         return df
     except Exception as e:
         logging.exception("ERROR:", e)
