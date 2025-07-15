@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import PlayerCard from '@/app/components/PlayerCard';
+import RankingsClient from '../components/RankingsClient';
 
 type Player = {
     name: string;
@@ -18,11 +19,7 @@ export default async function RankingsPage() {
     return (
         <main className="p-8">
             <h1 className="text-4xl font-bold mb-6">2025 Fantasy Rankings</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {players.map((player, index) => (
-                    <PlayerCard key={index} player={player} />
-                ))}
-            </div>
+            <RankingsClient players={players}/>
         </main>
     );
 }
