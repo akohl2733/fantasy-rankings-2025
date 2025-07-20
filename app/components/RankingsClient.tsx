@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import PlayerCard from "./PlayerCard";
 import FilterBar from "./FilterBar";
+import Button from "./FilterButton";
 
 type Player = {
     name: string;
@@ -28,7 +29,7 @@ export default function RankingsClient({players}: RankingsClientProps) {
             <FilterBar selectedPositions={filter} setSelectedPositions={setFilter}/>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
                 {filteredPlayers.map((player, index) => (
-                    <PlayerCard key={index} player={player} />
+                    <a href="#"><PlayerCard key={index} player={player} /></a>
                 ))}
             </div>
         </div>

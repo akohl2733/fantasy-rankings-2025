@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import PlayerCard from '@/app/components/PlayerCard';
 import RankingsClient from '../components/RankingsClient';
 
 type Player = {
