@@ -1,19 +1,48 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+"use client";
+import { useEffect, useState } from 'react';
 import RankingsClient from '../components/RankingsClient';
 
 type Player = {
-    name: string;
-    position: string;
-    team: string;
-    bye: number;
-    rank: number;
+    id: number
+    name: string
+    team: string
+    position: string
+    position_rank: number
+    proj_points: number
 }
 
-export default async function RankingsPage() {
-    const filePath = path.join(process.cwd(), 'backend', 'all_players', 'cleaned_rankings.json');
-    const jsonData = await fs.readFile(filePath, 'utf-8');
-    const players: Player[] = JSON.parse(jsonData);
+export default function RankingsPage() {
+
+    const [ players, setPlayers ] = useState<Player[]>([]);
+    const [ loading, setLoading ] = useState(true);
+    const [ error, setError ] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchPlayers = async () => {
+            try {
+                const response = await fetch("http://localhost:8000/players")
+                if (!response.ok){
+                    throw new Error(`HTTP error ${response.status}`);
+                }
+                const data: Player[] = await response.json();
+                setPlayers(data);
+            } catch (err: any){
+                console.error("There was an error", err);
+                setError(err.message || "Failed to fetch player");
+            } finally {
+                setLoading(false);
+            }
+        }; 
+        fetchPlayers();
+    }, [])
+
+    if (loading) {
+        return <p>Loading in players...</p>
+    }
+
+    if (error) {
+        return <p>Error: {error}</p>
+    }
 
     return (
         <main className="p-8">

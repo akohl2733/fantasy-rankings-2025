@@ -18,28 +18,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-csv_file = "./rb_totals_v1.csv"
+csv_file = "./Draft-rankings-export-2025.csv"
 df = pd.read_csv(csv_file)
 
 class Player(BaseModel):
+    id: int
     name: str
-    total_touches: float
-    rush_points: float
-    rec_points: float
-    total: float
+    team: str
+    position: str
     position_rank: int
+    proj_points: float
 
 player_list: list[Player] = []
 
 for index, row in df.iterrows():
     player_list.append(
         Player(
-            name = row["name"],
-            total_touches = row["total_touches"],
-            rush_points = round(row["rush_points"], 2),
-            rec_points = round(row["rec_points"], 2),
-            total = round(row["total"], 2),
-            position_rank = row["position_rank"]
+            id = row["Overall Rank"],
+            name = row["Full Name"],
+            team = row["Team Abbreviation"],
+            position = row["Position"],
+            position_rank = row["Position Rank"],
+            proj_points = row["Projected Points"]
         )
     )
 
@@ -50,4 +50,11 @@ def root():
 @app.get("/players/")
 def all_players():
     return player_list
+
+@app.get("/players/{rank}")
+def individual_player(rank: str):
+    for player in player_list:
+        if str(player.id) == str(rank):
+            return player
+    raise HTTPException(status_code=404, detail=f"Player with ID {id} not found")
     

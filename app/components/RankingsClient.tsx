@@ -3,14 +3,14 @@
 import React, { useState } from "react";
 import PlayerCard from "./PlayerCard";
 import FilterBar from "./FilterBar";
-import Button from "./FilterButton";
 
 type Player = {
-    name: string;
-    position: string;
-    team: string,
-    bye: number;
-    rank: number;
+    id: number
+    name: string
+    team: string
+    position: string
+    position_rank: number
+    proj_points: number
 }
 
 type RankingsClientProps = {
@@ -29,7 +29,9 @@ export default function RankingsClient({players}: RankingsClientProps) {
             <FilterBar selectedPositions={filter} setSelectedPositions={setFilter}/>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
                 {filteredPlayers.map((player, index) => (
-                    <a href="#"><PlayerCard key={index} player={player} /></a>
+                    <a href={`/players/${player.id}`} key={player.id}>
+                        <PlayerCard  player={player} />
+                    </a>
                 ))}
             </div>
         </div>
