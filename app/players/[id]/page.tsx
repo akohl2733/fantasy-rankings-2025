@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useState } from "react";
+import PlayerCard from "@/app/components/PlayerCard";
+import { use, useEffect, useState } from "react";
 
 type Player = {
     id: number
@@ -7,6 +8,14 @@ type Player = {
     team: string
     position: string
     position_rank: number
+    receptions: number
+    receiving_yards: number
+    receiving_tds: number
+    rushing_yards: number
+    rushing_tds: number
+    passing_yards: number
+    passing_tds: number
+    turnovers: number
     proj_points: number
 }
 
@@ -62,9 +71,55 @@ export default function IndividualPlayer({ params }: IndividualPlayerProps) {
                     <p>Projected Points: {player.proj_points}</p>
                     <p>Team: {player.team}</p>
                     <p>Position: {player.position}</p>
+                    <br />
+                    <p><span>Overall Rank: {player.id}</span>&emsp;<span>|</span>&emsp;<span>{player.position} Ranking: {player.position_rank}</span></p>
+                    <br />
+                    <DeterminePosition player={player} />
                 </div>
             </div>
             : <h1>"No player available"</h1>}
         </main>
     )
+}
+
+
+function DeterminePosition({player}: {player: Player}){
+    const possible_positions = ["WR", "TE", "RB", "DST", "QB", "K"];
+
+    if (!possible_positions.includes(player.position)){
+        return "This is not a valid player position";
+    }
+    
+    switch (player.position) {
+        case "RB":
+            return (
+                <div>
+                    <p>Projected Rushing Yards: {player.rushing_yards}</p>
+                    <p>Projected Rushing Touchdowns: {player.rushing_tds}</p>
+                    <br />
+                    <p>Projected Receptions: {player.receptions}</p>
+                    <p>Projected Receiving Yards: {player.receiving_yards}</p>
+                    <p>Projected Receiving Touchdowns: {player.receiving_tds}</p>
+                </div>
+            )
+
+        case "QB":
+            return (
+                <div>
+                    <p>Projected Passing Yards: {player.passing_yards}</p>
+                    <p>Projected Passing Touchdowns: {player.passing_yards}</p>
+                    <br />
+                    <p>Projected Rushing Yards: {player.rushing_yards}</p>
+                    <p>Projected Rushing Touchdowns: {player.rushing_tds}</p>
+                </div>
+            )
+        default:
+            return (
+                <div>
+                    <p>Projected Receptions: {player.receptions}</p>
+                    <p>Projected Yards: {player.receiving_yards}</p>
+                    <p>Projected Touchdowns: {player.receiving_tds}</p>
+                </div>
+            )
+    }
 }

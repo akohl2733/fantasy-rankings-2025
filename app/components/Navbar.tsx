@@ -4,7 +4,7 @@ export default function Navbar(){
             <div className='text-3xl font-bold px-10'>Fantasy Football Rankings 2025</div>
             <ul className="flex gap-6 text-lg">
                 <li><a href="/rankings" className="hover:text-gray-400">Rankings</a></li>
-                <li><a href="#" className="hover:text-gray-400">Players</a></li>
+                <li><a href="/players" className="hover:text-gray-400">Players</a></li>
                 <li><a href="#" className="hover:text-gray-400">About</a></li>
             </ul>
         </nav>

@@ -11,7 +11,7 @@ export default function Home() {
         <p className='text-lg text-gray-700 dark:text-gray-300 max-w-xl mb-8'>
           Tiered player rankings. Best analytics in the business. Half-point-PPR scoring. All in one place.
         </p>
-        <a href="#rankings" className='text-xl text-white dark:text-gray-300 hover:text-gray-500'>
+        <a href="/rankings" className='text-xl text-white dark:text-gray-300 hover:text-gray-500'>
           Get Started
         </a>
       </main>

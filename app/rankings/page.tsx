@@ -8,6 +8,14 @@ type Player = {
     team: string
     position: string
     position_rank: number
+    receptions: number
+    receiving_yards: number
+    receiving_tds: number
+    rushing_yards: number
+    rushing_tds: number
+    passing_yards: number
+    passing_tds: number
+    turnovers: number
     proj_points: number
 }
 

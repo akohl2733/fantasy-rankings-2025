@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-csv_file = "./Draft-rankings-export-2025.csv"
+csv_file = "./fantasy-rankings-07-25-25.csv"
 df = pd.read_csv(csv_file)
 
 class Player(BaseModel):
@@ -27,6 +27,14 @@ class Player(BaseModel):
     team: str
     position: str
     position_rank: int
+    receptions: int
+    receiving_yards: int
+    receiving_tds: int
+    rushing_yards: int
+    rushing_tds: int
+    passing_yards: int
+    passing_tds: int
+    turnovers: int
     proj_points: float
 
 player_list: list[Player] = []
@@ -35,11 +43,19 @@ for index, row in df.iterrows():
     player_list.append(
         Player(
             id = row["Overall Rank"],
-            name = row["Full Name"],
-            team = row["Team Abbreviation"],
+            name = row["Name"],
             position = row["Position"],
             position_rank = row["Position Rank"],
-            proj_points = row["Projected Points"]
+            team = row["Team"],
+            receptions = row["Receptions"],
+            receiving_yards = row["Receiving Yards"],
+            receiving_tds = row["Receiving TDs"],
+            rushing_yards = row["Rushing Yards"],
+            rushing_tds = row["Rushing Touchdowns"],
+            passing_yards = row["Passing Yards"],
+            passing_tds = row["Passing Touchdowns"],
+            turnovers = row["Turnovers"],
+            proj_points = row["Total Fantasy Points"]
         )
     )
 
@@ -57,4 +73,3 @@ def individual_player(rank: str):
         if str(player.id) == str(rank):
             return player
     raise HTTPException(status_code=404, detail=f"Player with ID {id} not found")
-    
