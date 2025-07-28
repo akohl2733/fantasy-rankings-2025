@@ -62,10 +62,8 @@ export default function PlayersPage(){
 
     return (
 
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen pb-20 gap-1 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <h1 className="text-3xl font-bold">Placeholder</h1>
+        <div className="w-full grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen pb-20 gap-1 sm:p-20 font-[family-name:var(--font-geist-sans)]">
             <div className="text-xl font-bold justify-items-center">
-                <h1>Inserting SearchBar Here</h1>
                 <SearchBar options={players} placeholder="Please type a player's name..."/>
             </div>
         </div>

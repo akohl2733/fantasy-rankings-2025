@@ -68,13 +68,15 @@ export default function IndividualPlayer({ params }: IndividualPlayerProps) {
             ? <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen pb-20 gap-1 sm:p-20 font-[family-name:var(--font-geist-sans)]">
                 <h1 className="text-3xl font-bold">{player.name}</h1>
                 <div className="text-xl font-bold justify-items-center">
-                    <p>Projected Points: {player.proj_points}</p>
-                    <p>Team: {player.team}</p>
                     <p>Position: {player.position}</p>
+                    <p>Team: {player.team}</p>
                     <br />
                     <p><span>Overall Rank: {player.id}</span>&emsp;<span>|</span>&emsp;<span>{player.position} Ranking: {player.position_rank}</span></p>
                     <br />
+                    <p>Projected Points: {player.proj_points}</p>
+                    <br />
                     <DeterminePosition player={player} />
+                    
                 </div>
             </div>
             : <h1>"No player available"</h1>}
@@ -107,7 +109,7 @@ function DeterminePosition({player}: {player: Player}){
             return (
                 <div>
                     <p>Projected Passing Yards: {player.passing_yards}</p>
-                    <p>Projected Passing Touchdowns: {player.passing_yards}</p>
+                    <p>Projected Passing Touchdowns: {player.passing_tds}</p>
                     <br />
                     <p>Projected Rushing Yards: {player.rushing_yards}</p>
                     <p>Projected Rushing Touchdowns: {player.rushing_tds}</p>

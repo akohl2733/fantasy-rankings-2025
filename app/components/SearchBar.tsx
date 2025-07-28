@@ -73,7 +73,7 @@ const SearchBar: React.FC<SearchBarProps> = ({options, placeholder="Start typing
 
     return (
     <div className="relative w-full max-w-md mx-auto p-4 text-black">
-      <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">Search for a Player</h2>
+      <h2 className="text-2xl text-white font-bold text-center mb-4 text-gray-800">Search for a Player</h2>
       <input
         ref={inputRef}
         type="text"
@@ -82,13 +82,13 @@ const SearchBar: React.FC<SearchBarProps> = ({options, placeholder="Start typing
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={placeholder}
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+        className="w-full px-4 py-2 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
         aria-label="Search input"
       />
 
       {/* Conditional rendering for the options list */}
       {selectedOptions && filteredOptions.length > 0 && (
-        <ul className="absolute z-10 w-full bg-black border border-gray-300 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto">
+        <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto">
           {filteredOptions.map((option, index) => (
             <li
               key={index}
@@ -101,14 +101,14 @@ const SearchBar: React.FC<SearchBarProps> = ({options, placeholder="Start typing
         </ul>
       )}
 
-      {/* This "button" is conceptual, the input itself triggers the options */}
+      {/* This "button" is conceptual, the input itself triggers the options
       <button
         type="button"
         onClick={() => inputRef.current?.focus()} // Focus the input when this button is clicked
         className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
       >
         Show Player Options
-      </button>
+      </button> */}
     </div>
   );
 }
