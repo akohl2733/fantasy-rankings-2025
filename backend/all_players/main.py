@@ -27,13 +27,13 @@ class Player(BaseModel):
     team: str
     position: str
     position_rank: int
-    receptions: int
-    receiving_yards: int
-    receiving_tds: int
-    rushing_yards: int
-    rushing_tds: int
-    passing_yards: int
-    passing_tds: int
+    receptions: float
+    receiving_yards: float
+    receiving_tds: float
+    rushing_yards: float
+    rushing_tds: float
+    passing_yards: float
+    passing_tds: float
     turnovers: int
     proj_points: float
 

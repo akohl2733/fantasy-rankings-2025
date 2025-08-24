@@ -5,6 +5,7 @@ export default function Navbar(){
             <ul className="flex gap-6 text-lg">
                 <li><a href="/rankings" className="hover:text-gray-400">Rankings</a></li>
                 <li><a href="/players" className="hover:text-gray-400">Players</a></li>
+                <li><a href="/positional" className="hover:text-gray-400">Positional Strategy</a></li>
                 <li><a href="#" className="hover:text-gray-400">About</a></li>
             </ul>
         </nav>
