@@ -11,6 +11,7 @@ type Player = {
     position: string
     position_rank: number
     proj_points: number
+    tier: number
 }
 
 type RankingsClientProps = {

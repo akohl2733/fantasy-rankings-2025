@@ -17,6 +17,7 @@ type Player = {
     passing_tds: number
     turnovers: number
     proj_points: number
+    tier: number
 }
 
 interface SearchBarProps {

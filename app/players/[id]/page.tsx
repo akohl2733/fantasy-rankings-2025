@@ -17,6 +17,7 @@ type Player = {
     passing_tds: number
     turnovers: number
     proj_points: number
+    tier: number
 }
 
 interface IndividualPlayerProps {
@@ -71,7 +72,7 @@ export default function IndividualPlayer({ params }: IndividualPlayerProps) {
                     <p>Position: {player.position}</p>
                     <p>Team: {player.team}</p>
                     <br />
-                    <p><span>Overall Rank: {player.id}</span>&emsp;<span>|</span>&emsp;<span>{player.position} Ranking: {player.position_rank}</span></p>
+                    <p><span>Overall Rank: {player.id}</span>&emsp;<span>|</span>&emsp;<span>{player.position} Ranking: {player.position_rank}</span>&emsp;<span>|</span>&emsp;<span>{player.position} Tier: {player.tier}</span></p>
                     <br />
                     <p>Projected Points: {player.proj_points}</p>
                     <br />

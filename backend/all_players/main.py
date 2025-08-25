@@ -36,6 +36,7 @@ class Player(BaseModel):
     passing_tds: float
     turnovers: int
     proj_points: float
+    tier: int
 
 player_list: list[Player] = []
 
@@ -55,7 +56,8 @@ for index, row in df.iterrows():
             passing_yards = row["Passing Yards"],
             passing_tds = row["Passing Touchdowns"],
             turnovers = row["Turnovers"],
-            proj_points = row["Total Fantasy Points"]
+            proj_points = row["Total Fantasy Points"],
+            tier = row["Tier"]
         )
     )
 
