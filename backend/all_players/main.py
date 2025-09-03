@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+import os
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import typing
@@ -18,7 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-csv_file = "./fantasy-rankings-07-25-25.csv"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_file = os.path.join(BASE_DIR, "..", "data", "fantasy-rankings-07-25-25.csv")
 df = pd.read_csv(csv_file)
 
 class Player(BaseModel):
