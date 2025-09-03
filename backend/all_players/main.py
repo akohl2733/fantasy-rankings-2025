@@ -75,3 +75,7 @@ def individual_player(rank: str):
         if str(player.id) == str(rank):
             return player
     raise HTTPException(status_code=404, detail=f"Player with ID {id} not found")
+
+@app.get("/health")
+def health():
+    return {"ok": True}
