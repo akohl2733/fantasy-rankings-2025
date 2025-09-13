@@ -1,8 +1,10 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import typing
+from typing import List
 import pandas as pd 
 
 app = FastAPI()
@@ -19,11 +21,39 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-csv_file = os.path.join(BASE_DIR, "..", "data", "fantasy-rankings-07-25-25.csv")
-df = pd.read_csv(csv_file)
+DATABASE_URL = 'postgresql+psycopg2://fantasy_user:secret@localhost:5432/fantasy'
 
-class Player(BaseModel):
+engine = create_engine(DATABASE_URL, echo=True)
+SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+Base = declarative_base()
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# csv_file = os.path.join(BASE_DIR, "..", "data", "fantasy-rankings-07-25-25.csv")
+# df = pd.read_csv(csv_file)
+
+
+class Player(Base):
+    __tablename__ = 'players'
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    team = Column(String, nullable=False)
+    position = Column(String, nullable=False)
+    position_rank = Column(Integer, nullable=False)
+    receptions = Column(Float)
+    receiving_yards = Column(Float)
+    receiving_tds = Column(Float)
+    rushing_yards = Column(Float)
+    rushing_tds = Column(Float)
+    passing_yards = Column(Float)
+    passing_tds = Column(Float)
+    turnovers = Column(Integer)
+    proj_points = Column(Float)
+    tier = Column(Integer)
+
+    def repr(self):
+        return f"<Player(name={self.name}, team={self.team}, pos={self.position})>"
+
+class PlayerSchema(BaseModel):
     id: int
     name: str
     team: str
@@ -40,41 +70,49 @@ class Player(BaseModel):
     proj_points: float
     tier: int
 
-player_list: list[Player] = []
+# player_list: list[Player] = []
 
-for index, row in df.iterrows():
-    player_list.append(
-        Player(
-            id = row["Overall Rank"],
-            name = row["Name"],
-            position = row["Position"],
-            position_rank = row["Position Rank"],
-            team = row["Team"],
-            receptions = row["Receptions"],
-            receiving_yards = row["Receiving Yards"],
-            receiving_tds = row["Receiving TDs"],
-            rushing_yards = row["Rushing Yards"],
-            rushing_tds = row["Rushing Touchdowns"],
-            passing_yards = row["Passing Yards"],
-            passing_tds = row["Passing Touchdowns"],
-            turnovers = row["Turnovers"],
-            proj_points = row["Total Fantasy Points"],
-            tier = row["Tier"]
-        )
-    )
+# for index, row in df.iterrows():
+#     player_list.append(
+#         Player(
+#             id = row["Overall Rank"],
+#             name = row["Name"],
+#             position = row["Position"],
+#             position_rank = row["Position Rank"],
+#             team = row["Team"],
+#             receptions = row["Receptions"],
+#             receiving_yards = row["Receiving Yards"],
+#             receiving_tds = row["Receiving TDs"],
+#             rushing_yards = row["Rushing Yards"],
+#             rushing_tds = row["Rushing Touchdowns"],
+#             passing_yards = row["Passing Yards"],
+#             passing_tds = row["Passing Touchdowns"],
+#             turnovers = row["Turnovers"],
+#             proj_points = row["Total Fantasy Points"],
+#             tier = row["Tier"]
+#         )
+#     )
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 @app.get("/")
 def root():
     return {"Success": "Connection made"}
 
-@app.get("/players/")
-def all_players():
-    return player_list
+@app.get("/players/", response_model=List[PlayerSchema])
+def all_players(db: SessionLocal = Depends(get_db)):
+    players = db.query(Player).all()
+    return players
 
 @app.get("/players/{rank}")
-def individual_player(rank: str):
-    for player in player_list:
-        if str(player.id) == str(rank):
+def individual_player(rank: str, db: SessionLocal = Depends(get_db)):
+    player = db.query(Player).filter(Player.id == rank).first()
+    if player:
             return player
     raise HTTPException(status_code=404, detail=f"Player with ID {id} not found")
 
