@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: fantasy-db
+    restart: always
+    environment:
+      POSTGRES_USER: fantasy_user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: players
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: fantasy-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql+psycopg2://fantasy_user:secret@db:5432/players
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:

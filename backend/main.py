@@ -21,7 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATABASE_URL = 'postgresql+psycopg2://fantasy_user:secret@localhost:5432/fantasy'
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
@@ -92,6 +92,8 @@ class PlayerSchema(BaseModel):
 #             tier = row["Tier"]
 #         )
 #     )
+
+Base.metadata.create_all(bind=engine)
 
 def get_db():
     db = SessionLocal()
