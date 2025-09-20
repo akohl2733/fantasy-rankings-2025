@@ -1,0 +1,1 @@
+sudo -u postgres psql -d fantasy -c "SELECT * FROM players"

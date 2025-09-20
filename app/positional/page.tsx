@@ -44,9 +44,9 @@ export default function PositionalPage(){
 
 function SelectPosition(){
     return (
-        <nav className='flex items-center justify-evenly bg-gray-900 px-10 py-10 m-10 text-white m-0 shadow rounded-xl'>
+        <nav className='max-w-3xl mx-auto flex items-center justify-evenly bg-gray-900 px-10 py-10 m-50 text-white shadow rounded-xl'>
             <ul className="flex gap-6 text-lg">
-                <li><a href='/positional/all' className="hover:text-gray-400">Go to Tiered Rankings</a></li>
+                <li><a href='/positional/all' className="hover:text-gray-400 px-10">Go to Tiered Rankings</a></li>
             </ul>
         </nav>
     )
