@@ -116,7 +116,7 @@ def individual_player(rank: str, db: SessionLocal = Depends(get_db)):
     player = db.query(Player).filter(Player.id == rank).first()
     if player:
             return player
-    raise HTTPException(status_code=404, detail=f"Player with ID {id} not found")
+    raise HTTPException(status_code=404, detail=f"Player with ID {rank} not found")
 
 @app.get("/health")
 def health():
