@@ -12,7 +12,7 @@ Base.metadata.create_all(bind=engine)
 
 @pytest.fixture(scope="function")
 def db_session():
-    """Fixture for a fresh database session."""
+    
     connection = engine.connect()
     transaction = connection.begin()
     session = TestingSessionLocal(bind=connection)
@@ -27,9 +27,7 @@ def db_session():
 
 @pytest.fixture(scope="function")
 def client(db_session):
-    """Fixture for a TestClient with DB override."""
-
-    # Override FastAPI's get_db dependency to use test session
+    
     def override_get_db():
         try:
             yield db_session

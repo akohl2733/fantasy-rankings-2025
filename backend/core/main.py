@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, Integer, String, Float
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker, DeclarativeBase
 import os
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -21,14 +21,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///:memory:")
+# DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///:memory:")
+DATABASE_URL = "postgresql+psycopg2://fantasy_user:secret@localhost:5432/fantasy"
 
 engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-Base = declarative_base()
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# csv_file = os.path.join(BASE_DIR, "..", "data", "fantasy-rankings-07-25-25.csv")
-# df = pd.read_csv(csv_file)
+
+class Base(DeclarativeBase):
+    pass
 
 
 class Player(Base):
