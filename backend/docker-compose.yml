@@ -19,7 +19,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgresql+psycopg2://fantasy_user:secret@db:5432/fantasy
+      DATABASE_URL: postgresql+psycopg2://fantasy_user:secret@db:5432/players
     ports:
       - "8000:8000"
     volumes:

@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, UniqueConstraint, Mapped, mapped_column
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, Float, String, ForeignKey, UniqueConstraint
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 from main import Base
 
 class PlayerInfo(Base):
@@ -8,7 +8,7 @@ class PlayerInfo(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
-    position: Mapped[str] = mapped_column(String(2))
+    position: Mapped[str] = mapped_column(String(10))
     team: Mapped[str] = mapped_column(String(3))
 
     weekly_stats_qb_flex = relationship("WeeklyStats_QB_Flex", back_populates="playerinfo")

@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 # DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///:memory:")
-DATABASE_URL = "postgresql+psycopg2://fantasy_user:secret@localhost:5432/fantasy"
+DATABASE_URL = "postgresql+psycopg2://fantasy_user:secret@db:5432/players"
 
 engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
