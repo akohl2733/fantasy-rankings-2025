@@ -35,7 +35,8 @@ class WeeklyStats_QB_Flex(Base):
     fumbles: Mapped[int]
     interceptions: Mapped[int]
     fantasy_points: Mapped[float]
-    rostered_percent: Mapped[float]   
+    game_played: Mapped[int]
+    rostered_percent: Mapped[int]   
 
     playerinfo = relationship("PlayerInfo", back_populates=("weekly_stats_qb_flex"))
 
