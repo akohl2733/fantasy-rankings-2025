@@ -1,6 +1,6 @@
 'use client';
 import PlayerCard from "@/app/components/PlayerCard";
-import { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 
 type Player = {
     id: number
@@ -27,7 +27,6 @@ interface IndividualPlayerProps {
 }
 
 export default function IndividualPlayer({ params }: IndividualPlayerProps) {
-
     const id = parseInt(params.id, 10);
 
     const [ player, setPlayer ] = useState<Player | null>(null);

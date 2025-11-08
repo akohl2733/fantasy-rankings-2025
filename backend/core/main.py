@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
-import os
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
@@ -53,6 +52,7 @@ class Player(Base):
     def repr(self):
         return f"<Player(name={self.name}, team={self.team}, pos={self.position})>"
 
+
 class PlayerSchema(BaseModel):
     id: int
     name: str
@@ -70,28 +70,6 @@ class PlayerSchema(BaseModel):
     proj_points: float
     tier: int
 
-# player_list: list[Player] = []
-
-# for index, row in df.iterrows():
-#     player_list.append(
-#         Player(
-#             id = row["Overall Rank"],
-#             name = row["Name"],
-#             position = row["Position"],
-#             position_rank = row["Position Rank"],
-#             team = row["Team"],
-#             receptions = row["Receptions"],
-#             receiving_yards = row["Receiving Yards"],
-#             receiving_tds = row["Receiving TDs"],
-#             rushing_yards = row["Rushing Yards"],
-#             rushing_tds = row["Rushing Touchdowns"],
-#             passing_yards = row["Passing Yards"],
-#             passing_tds = row["Passing Touchdowns"],
-#             turnovers = row["Turnovers"],
-#             proj_points = row["Total Fantasy Points"],
-#             tier = row["Tier"]
-#         )
-#     )
 
 Base.metadata.create_all(bind=engine)
 
