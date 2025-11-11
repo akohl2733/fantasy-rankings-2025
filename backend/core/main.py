@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.exc import SQLAlchemyError
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
@@ -20,11 +21,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///:memory:")
-DATABASE_URL = "postgresql+psycopg2://fantasy_user:secret@db:5432/players"
-
-engine = create_engine(DATABASE_URL, echo=True)
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 class Base(DeclarativeBase):
     pass
@@ -53,6 +49,18 @@ class Player(Base):
         return f"<Player(name={self.name}, team={self.team}, pos={self.position})>"
 
 
+# DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///:memory:")
+DATABASE_URL = "postgresql+psycopg2://fantasy_user:secret@db:5432/players"
+
+try:
+    engine = create_engine(DATABASE_URL, echo=True)
+    SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+    Base.metadata.create_all(bind=engine)
+except:
+    print(f"Database Initializtion failed")
+    raise
+
+
 class PlayerSchema(BaseModel):
     id: int
     name: str
@@ -71,8 +79,6 @@ class PlayerSchema(BaseModel):
     tier: int
 
 
-Base.metadata.create_all(bind=engine)
-
 def get_db():
     db = SessionLocal()
     try:
@@ -80,21 +86,30 @@ def get_db():
     finally:
         db.close()
 
+
 @app.get("/")
 def root():
     return {"Success": "Connection made"}
 
+
 @app.get("/players/", response_model=List[PlayerSchema])
 def all_players(db: SessionLocal = Depends(get_db)):
-    players = db.query(Player).all()
-    return players
+    try:
+        players = db.query(Player).all()
+        return players
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Database Error: {str(e)}")
+
+
 
 @app.get("/players/{rank}")
 def individual_player(rank: str, db: SessionLocal = Depends(get_db)):
-    player = db.query(Player).filter(Player.id == rank).first()
-    if player:
-            return player
-    raise HTTPException(status_code=404, detail=f"Player with ID {rank} not found")
+    try:
+        player = db.query(Player).filter(Player.id == rank).first()
+        return player
+    except:
+        raise HTTPException(status_code=404, detail=f"Player with ID {rank} not found")
+
 
 @app.get("/health")
 def health():
