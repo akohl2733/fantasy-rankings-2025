@@ -1,0 +1,5 @@
+2025-11-12 02:54:08,820 | INFO | fantasy_app | Database connection established successfully
+2025-11-12 02:54:08,833 | INFO | fantasy_app | FastAPI app starting up
+2025-11-12 02:56:52,554 | INFO | fantasy_app | Fetched 125 players from database
+2025-11-12 02:59:16,617 | WARNING | fantasy_app | Player with rank 1000 not found
+2025-11-12 02:59:27,691 | INFO | fantasy_app | Returned player: Justin Fields (ID=100)

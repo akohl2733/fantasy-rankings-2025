@@ -1,39 +1,69 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from sqlalchemy.orm import Session, sessionmaker
+from core.logging_config import logger
 from main import Base, engine
 import pandas as pd
 from models import WeeklyStats_QB_Flex
 
-Base.metadata.create_all(bind=engine)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-csv_file = os.path.join(BASE_DIR, '')
+csv_file = os.path.join(BASE_DIR, 'week_1_2025.csv')
 
-df = pd.read_csv(csv_file)
 
-with Session(engine) as session:
-    for idx, row in df.iterrows():
-        Session.add(
-            WeeklyStats_QB_Flex(
-                player_id = row["player_id"],
-                week = row["week"],
-                year = row["year"],
-                pass_yards = row["pass_yards"],
-                pass_tds = row["pass_tds"],
-                rush_attempts = row["rush_attempts"],
-                rush_yards = row["rush_yards"],
-                rush_tds = row["rush_tds"],
-                targets = row["targets"],
-                receptions = row["receptions"],
-                receiving_yards = row["receiving_yards"],
-                receiving_tds = row["receiving_tds"],
-                fumbles = row["fumbles"],
-                interceptions = row["interceptions"],
-                fantasy_points = row["fantasy_points"],
-                game_played = row["game_played"],
-                rostered_percent = row["rostered_percent"],
-            )
-        )
+# Create and/or connect to table
+try:
+    Base.metadata.create_all(bind=engine)
+    logger.info("Weekly table created or already exists")
+except Exception as e:
+    logger.critical(f"Error creating table: {e}", exc_info=True)
+    raise
+
+
+# load in CSV file
+try:
+    df = pd.read_csv(csv_file)
+    logger.info(f"Loaded CSV with {len(df)} rows from {csv_file}")
+except Exception as e:
+    logger.error(f"Failed to read CSV: {e}", exc_info=True)
+    raise
+
+
+# connect to DB and add player for each row in DataFrame
+try:
+    with Session(engine) as session:
+        for idx, row in df.iterrows():
+            try:
+                session.add(
+                    WeeklyStats_QB_Flex(
+                        player_id = row["player_id"],
+                        week = row["week"],
+                        year = row["year"],
+                        pass_yards = row["pass_yards"],
+                        pass_tds = row["pass_tds"],
+                        rush_attempts = row["rush_attempts"],
+                        rush_yards = row["rush_yards"],
+                        rush_tds = row["rush_tds"],
+                        targets = row["targets"],
+                        receptions = row["receptions"],
+                        receiving_yards = row["receiving_yards"],
+                        receiving_tds = row["receiving_tds"],
+                        fumbles = row["fumbles"],
+                        interceptions = row["interceptions"],
+                        fantasy_points = row["fantasy_points"],
+                        game_played = row["game_played"],
+                        rostered_percent = row["rostered_percent"],
+                        )
+                    )
+            except Exception as row_error:
+                logger.warning(f"Failed to process row {idx}: {row_error}")
+
         session.commit()
-    session.close()
+        logger.info("All valid rows committed successfully.")
+except Exception as e:
+    logger.error(f"Transaction failed. Rolling back. Error {e}", exc_info=True)
+    try:
+        session.rollback()
+        logger.debug("Session rollback successful.")
+    except Exception as rollback_error:
+        logger.critical(f"Rollback failed. {rollback_error}", exc_info=True)

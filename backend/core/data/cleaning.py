@@ -3,9 +3,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models import PlayerInfo, WeeklyStats_QB_Flex
 from main import engine
 from sqlalchemy.orm import Session
+from core.logging_config import logger
 import re
 import pandas as pd
 
+
+# normalize players already in database
 def get_player_lookup(db: Session):
     players = db.query(PlayerInfo).all()
     lookup = {}
@@ -15,6 +18,7 @@ def get_player_lookup(db: Session):
     return lookup
 
 
+# normalize names to match what is in db
 def normalize_names(name: str, team: str = ""):
     name = name.lower()
     name = re.sub(r"[.\']", "", name)
@@ -22,6 +26,8 @@ def normalize_names(name: str, team: str = ""):
     name = re.sub(r"\s+", " ", name).strip()
     return f"{name}-{team.lower()}"
 
+
+# separate team from player name (shows up in csv as both combined)
 def split_name(name_with_team: str):
     match = re.match(r"^(.*?)\s*\((\w+)\)$", name_with_team.strip())
     if match:
@@ -31,6 +37,8 @@ def split_name(name_with_team: str):
     else:
         return name_with_team.strip(), None
 
+
+# remove '%' symbol from csv for rostered percentage (only want value)
 def clean_percent(val):
     if pd.isna(val):
         return None
@@ -42,15 +50,19 @@ def clean_percent(val):
         return None
 
 
+# take in csv and match name to players in database
 def load_weekly_stats(csv_path: str):
+    logger.info(f"Starting load_weekly_stats for file: {csv_path}")
+
     df = pd.read_csv(csv_path)
     df = df.fillna(0)
 
     df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
 
     with Session(engine) as db:
-
+        logger.debug("Database session started.")
         player_lookup = get_player_lookup(db)
+        logger.debug(f"Loaded {len(player_lookup)} players into lookup.")
 
         missing = []
         records = []
@@ -103,14 +115,21 @@ def load_weekly_stats(csv_path: str):
                 db.commit()
             except Exception as e:
                 db.rollback()
-                print(f"⚠️ Error inserting {record.player_id}, week {record.week}: {e}")
+                logger.error(
+                    f"DB insert failed for player_id={record.player_id}"
+                    f"week={record.week}, year={record.year}, error={e}"
+                )
 
-        print(f"Inserted {len(records)} weekly stats")
+        logger.info(f"Inserted {len(records)} weekly stats")
         if missing:
-            print(f"Missing {len(missing)} players (names didn't match)")
+            logger.warning(f"Missing {len(missing)} players (names didn't match)")
             for name, team in missing[:10]:
-                print(f"    - {name} ({team})")
+                logger.debug(f"    - {name} ({team})")
 
+        logger.info(f'Finished loading weekly stats.')
+
+
+# run all functions
 if __name__ == "__main__":
     csv_path = os.path.join(os.path.dirname(__file__), "week_1_2025.csv")
     load_weekly_stats(csv_path)
