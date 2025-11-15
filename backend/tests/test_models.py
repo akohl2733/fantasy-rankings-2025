@@ -1,4 +1,4 @@
-from backend.core.main import Player
+from core.main import Player
 
 def test_create_player(db_session):
     player = Player(

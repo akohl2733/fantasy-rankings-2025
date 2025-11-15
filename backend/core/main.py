@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from core.logging_config import logger
 from typing import List
 import pandas as pd 
+import os
 
 
 # start FastAPI app
@@ -76,8 +77,10 @@ class Player(Base):
 
 
 # DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///:memory:")
-DATABASE_URL = "postgresql+psycopg2://fantasy_user:secret@db:5432/players"
-
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg2://fantasy_user:secret@db:5432/players"
+)
 
 # Create engine and Session for SQLAlchemy -> PostgreSQL connection
 try:

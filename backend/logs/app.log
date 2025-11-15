@@ -3,3 +3,250 @@
 2025-11-12 02:56:52,554 | INFO | fantasy_app | Fetched 125 players from database
 2025-11-12 02:59:16,617 | WARNING | fantasy_app | Player with rank 1000 not found
 2025-11-12 02:59:27,691 | INFO | fantasy_app | Returned player: Justin Fields (ID=100)
+2025-11-12 04:20:30,018 | INFO | fantasy_app | FastAPI app shutting down
+2025-11-15 18:17:22,740 | INFO | fantasy_app | Database connection established successfully
+2025-11-15 18:17:22,746 | INFO | fantasy_app | FastAPI app starting up
+2025-11-15 13:26:15,542 | ERROR | fantasy_app | Database Initializtion failed: (psycopg2.OperationalError) could not translate host name "db" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3297, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 1264, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 713, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 675, in __init__
+    self.__connect()
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 901, in __connect
+    with util.safe_reraise():
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 897, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/create.py", line 646, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 625, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "db" to address: Name or service not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/core/main.py", line 86, in <module>
+    Base.metadata.create_all(bind=engine)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/sql/schema.py", line 5924, in create_all
+    bind._run_ddl_visitor(
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3247, in _run_ddl_visitor
+    with self.begin() as conn:
+  File "/usr/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3237, in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3273, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2436, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3297, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 1264, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 713, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 675, in __init__
+    self.__connect()
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 901, in __connect
+    with util.safe_reraise():
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 897, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/create.py", line 646, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 625, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "db" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-11-15 13:30:34,888 | ERROR | fantasy_app | Database Initializtion failed: (psycopg2.OperationalError) could not translate host name "db" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3297, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 1264, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 713, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 675, in __init__
+    self.__connect()
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 901, in __connect
+    with util.safe_reraise():
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 897, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/create.py", line 646, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 625, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "db" to address: Name or service not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/core/main.py", line 89, in <module>
+    Base.metadata.create_all(bind=engine)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/sql/schema.py", line 5924, in create_all
+    bind._run_ddl_visitor(
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3247, in _run_ddl_visitor
+    with self.begin() as conn:
+  File "/usr/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3237, in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3273, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2436, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3297, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 1264, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 713, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 675, in __init__
+    self.__connect()
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 901, in __connect
+    with util.safe_reraise():
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 897, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/create.py", line 646, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 625, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akohl2733/Projects/fantasy-rankings-2025/backend/venv/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "db" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-11-15 13:32:00,784 | INFO | fantasy_app | Database connection established successfully
+2025-11-15 13:32:36,778 | INFO | fantasy_app | Database connection established successfully
+2025-11-15 13:33:02,736 | INFO | fantasy_app | Database connection established successfully
+2025-11-15 13:35:20,981 | INFO | fantasy_app | Database connection established successfully
+2025-11-15 13:35:21,129 | WARNING | fantasy_app | Player with rank 99 not found
+2025-11-15 13:35:47,905 | INFO | fantasy_app | Database connection established successfully
+2025-11-15 13:35:47,978 | INFO | fantasy_app | Returned player: Patrick Mahomes (ID=1)
+2025-11-15 13:35:47,988 | WARNING | fantasy_app | Player with rank 99 not found

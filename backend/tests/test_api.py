@@ -1,11 +1,11 @@
 from fastapi.testclient import TestClient 
-from backend.core.main import app
+from core.main import app
 
 client = TestClient(app)
 
 def test_get_existing_player(client, db_session):
     
-    from backend.core.main import Player
+    from core.main import Player
     player = Player(
         id=1,
         name="Patrick Mahomes",

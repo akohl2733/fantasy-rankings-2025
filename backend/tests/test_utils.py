@@ -1,5 +1,5 @@
 import pytest
-from backend.core.utils import clean_player_name
+from core.utils import clean_player_name
 
 @pytest.mark.parametrize("input_name,expected", [
     (' patrick mahomes ', "Patrick Mahomes"),
