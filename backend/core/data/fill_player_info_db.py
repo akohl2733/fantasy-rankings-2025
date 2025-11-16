@@ -3,16 +3,13 @@ Take in data from 'fantasy-rankings-07-25-25.csv' into database.
 """
 
 import os
-import sys
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 import pandas as pd
 
-from models import PlayerInfo
-from main import Base, engine
+from core.models import PlayerInfo
+from core.main import Base, engine
 
 with engine.connect() as conn:
     conn.execute(text("DROP TABLE IF EXISTS player_info CASCADE;"))

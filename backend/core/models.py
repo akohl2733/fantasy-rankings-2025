@@ -4,7 +4,8 @@ Defines structures of tables containing information for each Player and for week
 
 from sqlalchemy import Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from main import Base
+
+from core.main import Base
 
 class PlayerInfo(Base):
     """Defines fields for each Player object that will exist in database."""

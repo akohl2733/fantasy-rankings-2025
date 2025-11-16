@@ -3,18 +3,15 @@ Contains logic on cleaning CSV imported data for weekly CSVs.
 Cleans names, accesses DB, and ensures data integrity.
 """
 
-import sys
 import os
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 import re
+
 import pandas as pd
 from sqlalchemy.orm import Session
 
-from models import PlayerInfo, WeeklyStats_QB_Flex
-from main import engine
-from logging_config import logger
+from core.models import PlayerInfo, WeeklyStats_QB_Flex
+from core.main import engine
+from core.logging_config import logger
 
 
 # normalize players already in database
@@ -66,7 +63,7 @@ def clean_percent(val):
 
 def load_weekly_stats(csv_path: str):
     """Take in CSV file, match names, and load the data into the Weekly database."""
-    logger.info(f"Starting load_weekly_stats for file: {csv_path}")
+    logger.info("Starting load_weekly_stats for file: %s", csv_path)
 
     df = pd.read_csv(csv_path)
     df = df.fillna(0)
@@ -76,7 +73,7 @@ def load_weekly_stats(csv_path: str):
     with Session(engine) as db:
         logger.debug("Database session started.")
         player_lookup = get_player_lookup(db)
-        logger.debug(f"Loaded {len(player_lookup)} players into lookup.")
+        logger.debug("Loaded %s players into lookup.", len(player_lookup))
 
         missing = []
         records = []
@@ -130,15 +127,16 @@ def load_weekly_stats(csv_path: str):
             except Exception as e:
                 db.rollback()
                 logger.error(
-                    f"DB insert failed for player_id={record.player_id}"
-                    f"week={record.week}, year={record.year}, error={e}"
+                    "DB insert failed for player_id=%s"
+                    "week=%s, year=%s, error=%s", 
+                    record.player_id, record.week, record.year, e
                 )
 
-        logger.info(f"Inserted {len(records)} weekly stats")
+        logger.info("Inserted %s weekly stats", len(records))
         if missing:
-            logger.warning(f"Missing {len(missing)} players (names didn't match)")
+            logger.warning("Missing %s players (names didn't match)", len(missing))
             for name, team in missing[:10]:
-                logger.debug(f"    - {name} ({team})")
+                logger.debug("    - %s (%s)", name, team)
 
         logger.info('Finished loading weekly stats.')
 

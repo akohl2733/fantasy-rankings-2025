@@ -1,9 +1,14 @@
+import os
+import sys
+
+os.environ["DATABASE_URL"] = "sqlite:///./test.db"
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(ROOT_DIR)
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import os
-os.environ["DATABASE_URL"] = "sqlite:///./test.db"
 
 from core.main import Base, app, get_db
 

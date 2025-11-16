@@ -2,8 +2,10 @@
 Contains FastAPI router and runs the application.
 Defines endpoints for accessing API.
 """
+
 from typing import List
 import os
+
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,7 +13,8 @@ from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from sqlalchemy.exc import SQLAlchemyError
 from pydantic import BaseModel
-from logging_config import logger
+
+from core.logging_config import logger
 
 
 # start FastAPI app
@@ -38,7 +41,7 @@ app.add_middleware(
 @app.exception_handler(Exception)
 async def global_exception_handler(exc: Exception):
     """Handles all unhandled Exceptions that exist, but are not specifically defined."""
-    logger.error(f"Unhandled error: {exc}", exc_info=True)
+    logger.error("Unhandled error: %s", exc, exc_info=True)
     return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
 
 
@@ -96,7 +99,7 @@ try:
     Base.metadata.create_all(bind=engine)
     logger.info("Database connection established successfully")
 except Exception as e:
-    logger.error(f"Database Initializtion failed: {e}", exc_info=True)
+    logger.error("Database Initializtion failed: %s", e, exc_info=True)
     raise
 
 
@@ -142,10 +145,10 @@ def all_players(db: SessionLocal = Depends(get_db)):
     """GET request for all players in database."""
     try:
         players = db.query(Player).all()
-        logger.info(f"Fetched {len(players)} players from database")
+        logger.info("Fetched %s players from database", len(players))
         return players
     except SQLAlchemyError as e:
-        logger.error(f"Database error during all_players query: {e}", exc_info=True)
+        logger.error("Database error during all_players query: %s", e, exc_info=True)
         raise HTTPException(status_code=500, detail=f"Database Error: {str(e)}")
 
 
@@ -156,12 +159,12 @@ def individual_player(rank: str, db: SessionLocal = Depends(get_db)):
     try:
         player = db.query(Player).filter(Player.id == rank).first()
         if not player:
-            logger.warning(f"Player with rank {rank} not found")
+            logger.warning("Player with rank %s not found", rank)
             raise HTTPException(status_code=404, detail=f'Player with ID {rank} not found')
-        logger.info(f"Returned player: {player.name} (ID={rank})")
+        logger.info("Returned player: %s (ID=%s)", player.name, rank)
         return player
     except SQLAlchemyError as e:
-        logger.error(f"Database error fetching player{rank}: {e}", exc_info=True)
+        logger.error("Database error fetching player%s: %s", rank, e, exc_info=True)
         raise HTTPException(status_code=404, detail=f"Player with ID {rank} not found")
 
 

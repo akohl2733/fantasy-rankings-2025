@@ -3,16 +3,13 @@ Fill Weekly Stat DataBase with player data.
 """
 
 import os
-import sys
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from sqlalchemy.orm import Session
 import pandas as pd
 
-from main import Base, engine
-from logging_config import logger
-from models import WeeklyStats_QB_Flex
+from core.main import Base, engine
+from core.logging_config import logger
+from core.models import WeeklyStats_QB_Flex
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -24,16 +21,16 @@ try:
     Base.metadata.create_all(bind=engine)
     logger.info("Weekly table created or already exists")
 except Exception as e:
-    logger.critical(f"Error creating table: {e}", exc_info=True)
+    logger.critical("Error creating table: %s", e, exc_info=True)
     raise
 
 
 # load in CSV file
 try:
     df = pd.read_csv(csv_file)
-    logger.info(f"Loaded CSV with {len(df)} rows from {csv_file}")
+    logger.info("Loaded CSV with %s rows from %s", len(df), csv_file)
 except Exception as e:
-    logger.error(f"Failed to read CSV: {e}", exc_info=True)
+    logger.error("Failed to read CSV: %s", e, exc_info=True)
     raise
 
 
@@ -64,14 +61,14 @@ try:
                         )
                     )
             except Exception as row_error:
-                logger.warning(f"Failed to process row {idx}: {row_error}")
+                logger.warning("Failed to process row %s: %s", idx, row_error)
 
         session.commit()
         logger.info("All valid rows committed successfully.")
 except Exception as e:
-    logger.error(f"Transaction failed. Rolling back. Error {e}", exc_info=True)
+    logger.error("Transaction failed. Rolling back. Error %s", e, exc_info=True)
     try:
         session.rollback()
         logger.debug("Session rollback successful.")
     except Exception as rollback_error:
-        logger.critical(f"Rollback failed. {rollback_error}", exc_info=True)
+        logger.critical("Rollback failed. %s", rollback_error, exc_info=True)
