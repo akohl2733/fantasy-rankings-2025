@@ -1,15 +1,25 @@
-import sys, os
+"""
+Contains logic on cleaning CSV imported data for weekly CSVs.
+Cleans names, accesses DB, and ensures data integrity.
+"""
+
+import sys
+import os
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from models import PlayerInfo, WeeklyStats_QB_Flex
-from main import engine
-from sqlalchemy.orm import Session
-from core.logging_config import logger
+
 import re
 import pandas as pd
+from sqlalchemy.orm import Session
+
+from models import PlayerInfo, WeeklyStats_QB_Flex
+from main import engine
+from logging_config import logger
 
 
 # normalize players already in database
 def get_player_lookup(db: Session):
+    """Query database for all playesr and add to a dictionary for later use."""
     players = db.query(PlayerInfo).all()
     lookup = {}
     for p in players:
@@ -20,6 +30,7 @@ def get_player_lookup(db: Session):
 
 # normalize names to match what is in db
 def normalize_names(name: str, team: str = ""):
+    """Clean names from CSV to not contain surnames, spaces, or non-alpha characters."""
     name = name.lower()
     name = re.sub(r"[.\']", "", name)
     name = re.sub(r"\s+jr|sr|ii|iii", "", name)
@@ -29,17 +40,18 @@ def normalize_names(name: str, team: str = ""):
 
 # separate team from player name (shows up in csv as both combined)
 def split_name(name_with_team: str):
+    """Split name from full name to a first and last name."""
     match = re.match(r"^(.*?)\s*\((\w+)\)$", name_with_team.strip())
     if match:
         name = match.group(1).strip()
         team = match.group(2).strip()
         return name, team
-    else:
-        return name_with_team.strip(), None
+    return name_with_team.strip(), None
 
 
 # remove '%' symbol from csv for rostered percentage (only want value)
 def clean_percent(val):
+    """Take string form or percent, and change the value to a float value."""
     if pd.isna(val):
         return None
     if isinstance(val, str):
@@ -51,7 +63,9 @@ def clean_percent(val):
 
 
 # take in csv and match name to players in database
+
 def load_weekly_stats(csv_path: str):
+    """Take in CSV file, match names, and load the data into the Weekly database."""
     logger.info(f"Starting load_weekly_stats for file: {csv_path}")
 
     df = pd.read_csv(csv_path)
@@ -126,10 +140,10 @@ def load_weekly_stats(csv_path: str):
             for name, team in missing[:10]:
                 logger.debug(f"    - {name} ({team})")
 
-        logger.info(f'Finished loading weekly stats.')
+        logger.info('Finished loading weekly stats.')
 
 
 # run all functions
 if __name__ == "__main__":
-    csv_path = os.path.join(os.path.dirname(__file__), "week_1_2025.csv")
-    load_weekly_stats(csv_path)
+    path = os.path.join(os.path.dirname(__file__), "week_1_2025.csv")
+    load_weekly_stats(path)

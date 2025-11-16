@@ -1,15 +1,17 @@
+"""
+Contains FastAPI router and runs the application.
+Defines endpoints for accessing API.
+"""
+from typing import List
+import os
 from fastapi import FastAPI, HTTPException, Depends
-from fastapi.requests import Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from sqlalchemy.exc import SQLAlchemyError
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from core.logging_config import logger
-from typing import List
-import pandas as pd 
-import os
+from logging_config import logger
 
 
 # start FastAPI app
@@ -34,7 +36,8 @@ app.add_middleware(
 
 # automatically log every unhandled exception
 @app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
+async def global_exception_handler(exc: Exception):
+    """Handles all unhandled Exceptions that exist, but are not specifically defined."""
     logger.error(f"Unhandled error: {exc}", exc_info=True)
     return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
 
@@ -42,10 +45,12 @@ async def global_exception_handler(request: Request, exc: Exception):
 # log to confirm start up and shutdown
 @app.on_event("startup")
 def startup_event():
+    """Log to window when FastAPI is started."""
     logger.info("FastAPI app starting up")
 
 @app.on_event("shutdown")
 def shutdown_event():
+    """Log information to window when FastAPI app is shutting down."""
     logger.info("FastAPI app shutting down")
 
 
@@ -54,6 +59,7 @@ class Base(DeclarativeBase):
 
 
 class Player(Base):
+    """Defines what fields a player object should have."""
     __tablename__ = 'players'
 
     id = Column(Integer, primary_key=True, index=True)
@@ -73,6 +79,7 @@ class Player(Base):
     tier = Column(Integer)
 
     def repr(self):
+        """Allows string representation of class."""
         return f"<Player(name={self.name}, team={self.team}, pos={self.position})>"
 
 
@@ -93,8 +100,8 @@ except Exception as e:
     raise
 
 
-# scheme for player
 class PlayerSchema(BaseModel):
+    """Defines schema for what a player object will look like when accessed from database"""
     id: int
     name: str
     team: str
@@ -114,6 +121,7 @@ class PlayerSchema(BaseModel):
 
 # create a thread to existing session to be used as parameter in endpoint logic
 def get_db():
+    """Allows for functions to connect to a database session to GET/POST information."""
     db = SessionLocal()
     try:
         yield db
@@ -124,12 +132,14 @@ def get_db():
 # confirm functionality for app
 @app.get("/")
 def root():
+    """Endpoint made to prove connectivity."""
     return {"Success": "Connection made"}
 
 
 # access all players in the database
 @app.get("/players/", response_model=List[PlayerSchema])
 def all_players(db: SessionLocal = Depends(get_db)):
+    """GET request for all players in database."""
     try:
         players = db.query(Player).all()
         logger.info(f"Fetched {len(players)} players from database")
@@ -142,6 +152,7 @@ def all_players(db: SessionLocal = Depends(get_db)):
 # get player based on their specific rank
 @app.get("/players/{rank}")
 def individual_player(rank: str, db: SessionLocal = Depends(get_db)):
+    """Allows for search for a particular existing player in the database by 'rank'."""
     try:
         player = db.query(Player).filter(Player.id == rank).first()
         if not player:
@@ -157,5 +168,6 @@ def individual_player(rank: str, db: SessionLocal = Depends(get_db)):
 # endpoint for assessing health of application
 @app.get("/health")
 def health():
+    """Check health of database."""
     logger.debug("Health check endpoint hit")
     return {"ok": True}

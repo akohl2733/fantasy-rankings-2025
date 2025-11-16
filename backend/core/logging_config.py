@@ -1,3 +1,8 @@
+"""
+Logging configuration for FastAPI application.
+Sets up console and rotating file handlers.
+"""
+
 import logging
 from logging.handlers import RotatingFileHandler
 import os

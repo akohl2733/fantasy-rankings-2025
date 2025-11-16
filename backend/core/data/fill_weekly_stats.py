@@ -1,9 +1,17 @@
-import sys, os
+"""
+Fill Weekly Stat DataBase with player data.
+"""
+
+import os
+import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from sqlalchemy.orm import Session, sessionmaker
-from core.logging_config import logger
-from main import Base, engine
+
+from sqlalchemy.orm import Session
 import pandas as pd
+
+from main import Base, engine
+from logging_config import logger
 from models import WeeklyStats_QB_Flex
 
 

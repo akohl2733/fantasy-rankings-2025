@@ -1,11 +1,15 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float
-from sqlalchemy.orm import sessionmaker, declarative_base, Session
-from core.logging_config import logger
-import os, sys
+"""
+Allows users to fill the DataBase with a CSV data on player projections.
+"""
+
+from main import Player, engine, Base
+from logging_config import logger
+import os
+import sys
+from sqlalchemy.orm import Session
 import pandas as pd
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from main import Player, engine, Base
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

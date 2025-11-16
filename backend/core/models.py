@@ -1,8 +1,13 @@
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, UniqueConstraint
+"""
+Defines structures of tables containing information for each Player and for weekly performances.
+"""
+
+from sqlalchemy import Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from main import Base
 
 class PlayerInfo(Base):
+    """Defines fields for each Player object that will exist in database."""
     __tablename__ = 'player_info'
     __table_args__ = (UniqueConstraint("name", "team", name="uq_player_name_team"),)
 
@@ -14,16 +19,17 @@ class PlayerInfo(Base):
     weekly_stats_qb_flex = relationship("WeeklyStats_QB_Flex", back_populates="playerinfo")
 
     def repr(self):
+        """Prints class information"""
         return f"<PlayerInfo(name={self.name}, team={self.team}, pos={self.position})>"
 
 class WeeklyStats_QB_Flex(Base):
+    """Defines fields for weelkly performance object that will exist in database."""
     __tablename__ = 'weekly_stats_qb_flex'
-
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     player_id: Mapped[int] = mapped_column(ForeignKey("player_info.id"))
     week: Mapped[int] = mapped_column(nullable=False)
     year: Mapped[int] = mapped_column(nullable=False)
-    pass_yards: Mapped[int] 
+    pass_yards: Mapped[int]
     pass_tds: Mapped[int]
     rush_attempts: Mapped[int]
     rush_yards: Mapped[int]
@@ -36,9 +42,10 @@ class WeeklyStats_QB_Flex(Base):
     interceptions: Mapped[int]
     fantasy_points: Mapped[float]
     game_played: Mapped[int]
-    rostered_percent: Mapped[int]   
+    rostered_percent: Mapped[int]
 
     playerinfo = relationship("PlayerInfo", back_populates=("weekly_stats_qb_flex"))
 
     def repr(self):
+        """Prints class information"""
         return f"<Weekly Stats(id={self.player_id}, fantasy_points={self.fantasy_points})>"
