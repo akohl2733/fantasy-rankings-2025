@@ -1,4 +1,13 @@
 services:
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
   db:
     image: postgres:15
     container_name: fantasy-db
@@ -13,7 +22,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build: .
+    build:
+      context: ./backend
     container_name: fantasy-backend
     restart: always
     depends_on:
@@ -23,7 +33,17 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/core
+      - ./backend:/core
+
+  nginx-proxy:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
 
 volumes:
   postgres_data:

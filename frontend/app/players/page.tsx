@@ -32,7 +32,7 @@ export default function PlayersPage(){
     useEffect(() => {
         const playerNames = async () => {
             try {
-                const url = `http://localhost:8000/players/`;
+                const url = `/api/players/`;
                 const response = await fetch(url);
                 if (!response.ok){
                     throw new Error(`HTTP error ${response.status}`);

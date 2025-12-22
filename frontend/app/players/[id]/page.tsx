@@ -1,5 +1,4 @@
 'use client';
-import PlayerCard from "@/app/components/PlayerCard";
 import React, { use, useEffect, useState } from "react";
 
 type Player = {
@@ -21,13 +20,14 @@ type Player = {
 }
 
 interface IndividualPlayerProps {
-  params: {
+  params: Promise<{
     id: string; // Next.js passes dynamic segments as strings
-  };
+  }>;
 }
 
 export default function IndividualPlayer({ params }: IndividualPlayerProps) {
-    const id = parseInt(params.id, 10);
+    const resolvedParams = use(params)
+    const id = parseInt(resolvedParams.id, 10);
 
     const [ player, setPlayer ] = useState<Player | null>(null);
     const [ loading, setLoading ] = useState(true);
@@ -36,7 +36,7 @@ export default function IndividualPlayer({ params }: IndividualPlayerProps) {
     useEffect(() => {
         const fetchPlayers = async () => {
             try {
-                const url = `http://localhost:8000/players/${id}`;
+                const url = `/api/players/${id}`;
                 console.log("Getting from url:", url)
                 const response = await fetch(url);
                 if (!response.ok) {

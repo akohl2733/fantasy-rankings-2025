@@ -1,6 +1,6 @@
-'use client';
-import { useEffect, useState } from "react";
-import RankingsClient from "@/app/components/RankingsClient";
+"use client";
+import { useEffect, useState } from 'react';
+import RankingsClient from '../components/RankingsClient';
 
 type Player = {
     id: number
@@ -20,20 +20,16 @@ type Player = {
     tier: number
 }
 
-type TieredPlayers = {
-    [key: number]: Player[];
-}
-
-export default function TieredRanks() {
+export default function RankingsPage() {
 
     const [ players, setPlayers ] = useState<Player[]>([]);
-    const [ error, setError ] = useState<String | null >(null);
     const [ loading, setLoading ] = useState(true);
+    const [ error, setError ] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchPlayers = async () => {
             try {
-                const response = await fetch("http://localhost:8000/players");
+                const response = await fetch("/api/players/")
                 if (!response.ok){
                     throw new Error(`HTTP error ${response.status}`);
                 }
@@ -45,36 +41,22 @@ export default function TieredRanks() {
             } finally {
                 setLoading(false);
             }
-        };
+        }; 
         fetchPlayers();
-    }, []);
+    }, [])
 
     if (loading) {
         return <p>Loading in players...</p>
     }
-    
+
     if (error) {
         return <p>Error: {error}</p>
     }
 
-    const tieredPlayers: TieredPlayers = players.reduce((acc, player) => {
-        const { tier } = player;
-        if (!acc[tier]) {
-            acc[tier] = [];
-        }
-        acc[tier].push(player);
-        return acc;
-    }, {} as TieredPlayers);
-    
     return (
         <main className="p-8">
             <h1 className="text-4xl font-bold mb-6">2025 Fantasy Rankings</h1>
-            {Object.keys(tieredPlayers).sort((a, b) => Number(a) - Number(b)).map(tier => (
-                <div key={tier} className="mb-8">
-                    <h2 className="text-2xl font-semibold mb-4">Tier {tier} Players</h2>
-                    <RankingsClient players={tieredPlayers[Number(tier)]} />
-                </div>
-            ))}
+            <RankingsClient players={players}/>
         </main>
     );
 }

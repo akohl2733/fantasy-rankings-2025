@@ -1,5 +1,3 @@
-import Button from "./FilterButton";
-
 type Player = {
     id: number
     name: string

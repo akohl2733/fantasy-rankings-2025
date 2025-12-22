@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Button from './FilterButton';
 
 type FilterBarProps = {
@@ -8,7 +8,7 @@ type FilterBarProps = {
     setSelectedPositions: (position: string) => void;
 }
 
-export default function FilterBar({ selectedPositions, setSelectedPositions }: FilterBarProps) {
+export default function FilterBar({ setSelectedPositions }: FilterBarProps) {
     return (
         <div className="text-2xl font-semibold mb-6 flex !space-x-5">
             <Button onClick={() => setSelectedPositions("WR")} className="hover:text-sky-600">WR</Button>
