@@ -33,7 +33,7 @@ export default function TieredRanks() {
     useEffect(() => {
         const fetchPlayers = async () => {
             try {
-                const response = await fetch("/api/players");
+                const response = await fetch(`/api/players/`);
                 if (!response.ok){
                     throw new Error(`HTTP error ${response.status}`);
                 }
