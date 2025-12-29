@@ -24,6 +24,8 @@ app = FastAPI()
 # mark frontend
 origins = [
     "http://localhost:3000",
+    "https://fantasy-gateway.livelydune-5915b05d.eastus2.azurecontainerapps.io",
+    "https://fantasy-frontend-app.livelydune-5915b05d.eastus2.azurecontainerapps.io"
 ]
 
 

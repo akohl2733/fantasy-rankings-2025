@@ -11930,3 +11930,21 @@
 2025-12-22 03:27:55,680 | INFO | fantasy_app | Fetched 125 players from database
 2025-12-22 03:27:55,737 | INFO | fantasy_app | Returned player: Derrick Henry (ID=10)
 2025-12-22 03:27:58,648 | INFO | fantasy_app | Fetched 125 players from database
+2025-12-22 03:45:52,342 | INFO | fantasy_app | FastAPI app shutting down
+2025-12-23 03:29:47,823 | INFO | fantasy_app | Database connection established successfully
+2025-12-23 03:29:47,833 | INFO | fantasy_app | FastAPI app starting up
+2025-12-23 04:47:48,512 | INFO | fantasy_app | FastAPI app shutting down
+2025-12-27 23:56:23,143 | INFO | fantasy_app | Database connection established successfully
+2025-12-27 23:56:23,149 | INFO | fantasy_app | FastAPI app starting up
+2025-12-28 00:13:28,893 | INFO | fantasy_app | FastAPI app shutting down
+2025-12-28 00:14:51,955 | INFO | fantasy_app | Database connection established successfully
+2025-12-28 00:14:51,962 | INFO | fantasy_app | FastAPI app starting up
+2025-12-28 00:44:32,381 | INFO | fantasy_app | FastAPI app shutting down
+2025-12-28 00:44:46,348 | INFO | fantasy_app | Database connection established successfully
+2025-12-28 00:44:46,356 | INFO | fantasy_app | FastAPI app starting up
+2025-12-28 00:46:48,929 | INFO | fantasy_app | FastAPI app shutting down
+2025-12-28 00:48:54,776 | INFO | fantasy_app | Database connection established successfully
+2025-12-28 00:48:54,782 | INFO | fantasy_app | FastAPI app starting up
+2025-12-28 00:55:32,589 | INFO | fantasy_app | FastAPI app shutting down
+2025-12-28 00:57:51,900 | INFO | fantasy_app | Database connection established successfully
+2025-12-28 00:57:51,905 | INFO | fantasy_app | FastAPI app starting up

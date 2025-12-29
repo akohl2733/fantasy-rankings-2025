@@ -36,11 +36,14 @@ services:
       - ./backend:/core
 
   nginx-proxy:
-    image: nginx:latest
+    image: nginx:alpine
     ports:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    extra_hosts:
+      - "fantasy-api.internal:host-gateway"
+      - "fantasy-frontend-app.internal:host-gateway"
     depends_on:
       - backend
       - frontend
